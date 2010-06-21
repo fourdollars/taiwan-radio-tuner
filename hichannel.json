@@ -1,0 +1,356 @@
+{
+	"title": "hiChannel 廣播",
+	"url": "http://hichannel.hinet.net/radio.html",
+	"category": [
+		{
+			"title": "音樂",
+			"channel": [
+				{
+					"title": "KISS RADIO 網路音樂台",
+					"id": "308",
+					"url": "http://bcr.media.hinet.net/RA000042"
+				},
+				{
+					"title": "KISS RADIO 大眾廣播電台",
+					"id": "156",
+					"url": "http://bcr.media.hinet.net/RA000040"
+				},
+				{
+					"title": "KISS RADIO 台南知音廣播",
+					"id": "255",
+					"url": "http://bcr.media.hinet.net/RA000044"
+				},
+				{
+					"title": "KISS RADIO 大苗栗廣播",
+					"id": "256",
+					"url": "http://bcr.media.hinet.net/RA000041"
+				},
+				{
+					"title": "KISS RADIO 南投廣播",
+					"id": "258",
+					"url": "http://bcr.media.hinet.net/RA000043"
+				},
+				{
+					"title": "中廣音樂網i radio",
+					"id": "206",
+					"url": "http://bcr.media.hinet.net/RA000007"
+				},
+				{
+					"title": "中廣流行網 i like",
+					"id": "205",
+					"url": "http://bcr.media.hinet.net/RA000009"
+				},
+				{
+					"title": "HitFM聯播網 北部",
+					"id": "222",
+					"url": "http://bcr.media.hinet.net/RA000036"
+				},
+				{
+					"title": "HitFM聯播網 中部",
+					"id": "88",
+					"url": "http://bcr.media.hinet.net/RA000035"
+				},
+				{
+					"title": "HitFM聯播網 南部",
+					"id": "90",
+					"url": "http://bcr.media.hinet.net/RA000034"
+				},
+				{
+					"title": "POP Radio 917台北流行音樂電台",
+					"id": "370",
+					"url": "http://bcr.media.hinet.net/RA000080"
+				},
+				{
+					"title": "台北愛樂",
+					"id": "228",
+					"url": "http://bcr.media.hinet.net/RA000018"
+				},
+				{
+					"title": "奇美古典音樂網",
+					"id": "294",
+					"url": "http://bcr.media.hinet.net/RA000014"
+				},
+				{
+					"title": "BestRadio 台北好事989",
+					"id": "212",
+					"url": "http://bcr.media.hinet.net/RA000013"
+				},
+				{
+					"title": "BestRadio 高雄港都983",
+					"id": "213",
+					"url": "http://bcr.media.hinet.net/RA000012"
+				},
+				{
+					"title": "BestRadio 台中好事903",
+					"id": "211",
+					"url": "http://bcr.media.hinet.net/RA000010"
+				},
+				{
+					"title": "BestRadio 花蓮好事935",
+					"id": "303",
+					"url": "http://bcr.media.hinet.net/RA000011"
+				},
+				{
+					"title": "Apple line 蘋果線上",
+					"id": "248",
+					"url": "http://bcr.media.hinet.net/RA000001"
+				},
+				{
+					"title": "ASIAFM衛星音樂台",
+					"id": "321",
+					"url": "http://bcr.media.hinet.net/RA000004"
+				},
+				{
+					"title": "Flyradio飛揚調頻895",
+					"id": "357",
+					"url": "http://bcr.media.hinet.net/RA000019"
+				},
+				{
+					"title": "RTI央廣-音樂",
+					"id": "313",
+					"url": "http://bcr.media.hinet.net/RA000061"
+				},
+				{
+					"title": "佳音現代聖樂網",
+					"id": "340",
+					"url": "http://bcr.media.hinet.net/RA000031"
+				},
+				{
+					"title": "全國廣播音樂網",
+					"id": "338",
+					"url": "http://bcr.media.hinet.net/RA000047"
+				},
+				{
+					"title": "太陽電台",
+					"id": "289",
+					"url": "http://bcr.media.hinet.net/RA000064"
+				}
+			]
+		},
+		{
+			"title": "生活",
+			"channel": [
+				{
+					"title": "飛碟電台",
+					"id": "232",
+					"url": "http://bcr.media.hinet.net/RA000072"
+				},
+				{
+					"title": "ASIA FM92.7亞州電台",
+					"id": "210",
+					"url": "http://bcr.media.hinet.net/RA000003"
+				},
+				{
+					"title": "ASIA FM92.3亞太電台",
+					"id": "295",
+					"url": "http://bcr.media.hinet.net/RA000002"
+				},
+				{
+					"title": "IC之音",
+					"id": "148",
+					"url": "http://bcr.media.hinet.net/RA000037"
+				},
+				{
+					"title": "環宇電台",
+					"id": "282",
+					"url": "http://bcr.media.hinet.net/RA000020"
+				},
+				{
+					"title": "全國廣播",
+					"id": "202",
+					"url": "http://bcr.media.hinet.net/RA000068"
+				},
+				{
+					"title": "佳音電台",
+					"id": "201",
+					"url": "http://bcr.media.hinet.net/RA000029"
+				},
+				{
+					"title": "佳音經典音樂網",
+					"id": "250",
+					"url": "http://bcr.media.hinet.net/RA000030"
+				},
+				{
+					"title": "大愛網路電台",
+					"id": "325",
+					"url": "http://bcr.media.hinet.net/RA000017"
+				},
+				{
+					"title": "青春線上",
+					"id": "356",
+					"url": "http://bcr.media.hinet.net/RA000079"
+				},
+				{
+					"title": "GOLD FM-台北健康電台",
+					"id": "229",
+					"url": "http://bcr.media.hinet.net/RA000027"
+				},
+				{
+					"title": "GOLD FM-台中城市廣播",
+					"id": "226",
+					"url": "http://bcr.media.hinet.net/RA000028"
+				},
+				{
+					"title": "台北廣播電台喔海洋頻道",
+					"id": "238",
+					"url": "http://bcr.media.hinet.net/RA000069"
+				},
+				{
+					"title": "台北廣播電台- 都會資訊頻道",
+					"id": "208",
+					"url": "http://bcr.media.hinet.net/RA000070"
+				},
+				{
+					"title": "大千電台",
+					"id": "109",
+					"url": "http://bcr.media.hinet.net/RA000067"
+				},
+				{
+					"title": "宜蘭中山電台",
+					"id": "301",
+					"url": "http://bcr.media.hinet.net/RA000065"
+				},
+				{
+					"title": "真心之音廣播電台",
+					"id": "217",
+					"url": "http://bcr.media.hinet.net/RA000033"
+				}
+			]
+		},
+		{
+			"title": "新聞",
+			"channel": [
+				{
+					"title": "中廣新聞網",
+					"id": "207",
+					"url": "http://bcr.media.hinet.net/RA000008"
+				},
+				{
+					"title": "NEWS98新聞網",
+					"id": "187",
+					"url": "http://bcr.media.hinet.net/RA000073"
+				}
+			]
+		},
+		{
+			"title": "綜合",
+			"channel": [
+				{
+					"title": "正義電台",
+					"id": "1020",
+					"url": "http://bcr.media.hinet.net/RA000022"
+				},
+				{
+					"title": "正聲台北調頻台",
+					"id": "198",
+					"url": "http://bcr.media.hinet.net/RA000016"
+				},
+				{
+					"title": "正聲台北調幅台",
+					"id": "317",
+					"url": "http://bcr.media.hinet.net/RA000015"
+				},
+				{
+					"title": "漢聲廣播電台全國調頻網",
+					"id": "216",
+					"url": "http://bcr.media.hinet.net/RA000076"
+				},
+				{
+					"title": "漢聲廣播電台",
+					"id": "215",
+					"url": "http://bcr.media.hinet.net/RA000074"
+				},
+				{
+					"title": "漢聲光華網-短波",
+					"id": "309",
+					"url": "http://bcr.media.hinet.net/RA000077"
+				},
+				{
+					"title": "漢聲光華網-中波",
+					"id": "281",
+					"url": "http://bcr.media.hinet.net/RA000075"
+				},
+				{
+					"title": "RTI央廣-國語",
+					"id": "315",
+					"url": "http://bcr.media.hinet.net/RA000063"
+				},
+				{
+					"title": "綠色和平台灣文化廣播電台",
+					"id": "327",
+					"url": "http://bcr.media.hinet.net/RA000032"
+				}
+			]
+		},
+		{
+			"title": "外語",
+			"channel": [
+				{
+					"title": "ICRT",
+					"id": "177",
+					"url": "http://bcr.media.hinet.net/RA000038"
+				},
+				{
+					"title": "RTI央廣-歐美及方言",
+					"id": "314",
+					"url": "http://bcr.media.hinet.net/RA000062"
+				},
+				{
+					"title": "RTI央廣-FM 中央廣播電台",
+					"id": "312",
+					"url": "http://bcr.media.hinet.net/RA000060"
+				},
+				{
+					"title": "RTI央廣-亞洲頻道",
+					"id": "311",
+					"url": "http://bcr.media.hinet.net/RA000059"
+				}
+			]
+		},
+		{
+			"title": "多元文化",
+			"channel": [
+				{
+					"title": "寶島新聲廣播電台",
+					"id": "259",
+					"url": "http://bcr.media.hinet.net/RA000066"
+				},
+				{
+					"title": "非凡音電台",
+					"id": "1040",
+					"url": "http://bcr.media.hinet.net/RA000071"
+				},
+				{
+					"title": "中廣客家頻道",
+					"id": "160",
+					"url": "http://bcr.media.hinet.net/RA000006"
+				},
+				{
+					"title": "大漢之音",
+					"id": "300",
+					"url": "http://bcr.media.hinet.net/RA000021"
+				},
+				{
+					"title": "寶島客家廣播電台",
+					"id": "241",
+					"url": "http://bcr.media.hinet.net/RA000023"
+				},
+				{
+					"title": "新客家廣播電台",
+					"id": "254",
+					"url": "http://bcr.media.hinet.net/RA000048"
+				},
+				{
+					"title": "高屏溪客家廣播電台",
+					"id": "298",
+					"url": "http://bcr.media.hinet.net/RA000045"
+				},
+				{
+					"title": "中廣寶島網",
+					"id": "162",
+					"url": "http://bcr.media.hinet.net/RA000005"
+				}
+			]
+		}
+	]
+}
