@@ -142,7 +142,7 @@ var addOptionMinutes = function() {
     }
 }
 
-$.getJSON('hichannel.json', function(data, stat) {
+var handleStateChange = function(data, stat) {
     if (stat == 'success') {
         $.each(data.category, function(i, item) {
             if (item) {
@@ -180,6 +180,22 @@ $.getJSON('hichannel.json', function(data, stat) {
         addOptionMinutes();
         setAlarm();
     }
-});
+}
+
+//$.getJSON('http://fd.idv.tw/radio/hichannel.json', handleStateChange);
+
+var xhr;
+
+var handleStateChange2 = function() {
+    if (xhr.readyState == 4 && xhr.status == 0) {
+        var data = eval("(" + xhr.responseText + ")"); // This is dangerous, but we made the data so that is OK.
+        handleStateChange(data, "success");
+    }
+}
+
+xhr = new XMLHttpRequest();
+xhr.onreadystatechange = handleStateChange2;
+xhr.open("GET", chrome.extension.getURL('hichannel.json'), true);
+xhr.send();
 
 })(jQuery);
