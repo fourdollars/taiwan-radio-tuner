@@ -142,7 +142,7 @@ var addOptionMinutes = function() {
     }
 }
 
-$.getJSON('hichannel.json', function(data, stat) {
+$.getJSON('taiwan.json', function(data, stat) {
     if (stat == 'success') {
         $.each(data.category, function(i, item) {
             if (item) {
