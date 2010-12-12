@@ -1,6 +1,6 @@
 {
-	"title": "hiChannel 廣播",
-	"url": "http://hichannel.hinet.net/radio.html",
+	"title": "Taiwan Radio Tuner",
+	"url": "https://github.com/fourdollars/taiwan-radio-tuner",
 	"category": [
 		{
 			"title": "音樂",
@@ -349,6 +349,23 @@
 					"title": "中廣寶島網",
 					"id": "162",
 					"url": "http://bcr.media.hinet.net/RA000005"
+				}
+			]
+		},
+		{
+			"title": "學術電台",
+			"channel": [
+				{
+					"title": "PTT Radio - PTT Radio 網路電台",
+					"url": "http://cast.ptt.cc:8000/yes"
+				},
+				{
+					"title": "PTT Radio - OnlyMayDay",
+					"url": "http://cast.ptt.cc:8000/wow"
+				},
+				{
+					"title": "THBS - 清華大學校園電台",
+					"url": "http://media.club.nthu.edu.tw:8000/thbs.mp3"
 				}
 			]
 		}
