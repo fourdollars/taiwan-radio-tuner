@@ -63,9 +63,18 @@ var play = function() {
     var title = cat[category].channel[channel].title;
     var player = $('#player');
     if ($.browser.safari && $.os.mac) {
-        player.empty().append(
-            '<audio autoplay="autoplay" controls="controls" src="'
-            + url + '">UserAgent: ' + userAgent + '</audio>');
+        if (cat[category].channel[channel].id === undefined) {
+            player.empty().append(
+                '<object type="application/x-shockwave-flash" data="player_mp3_maxi.swf" width="60" height="20">'
+                + '<param name="movie" value="player_mp3_maxi.swf">'
+                + '<param name="FlashVars" value="mp3=' + url
+                + '&amp;width=60&amp;autoplay=1&amp;showvolume=1&amp;showslider=0">'
+                + '</object>');
+        } else {
+            player.empty().append(
+                '<audio autoplay="autoplay" controls="controls" src="'
+                + url + '">UserAgent: ' + userAgent + '</audio>');
+        }
     } else {
         player.empty().append(
             '<embed autostart="1" src="' + url + '"'

@@ -357,17 +357,14 @@
 			"channel": [
 				{
 					"title": "PTT Radio - PTT Radio 網路電台",
-					"type": "mp3",
 					"url": "http://cast.ptt.cc:8000/yes"
 				},
 				{
 					"title": "PTT Radio - OnlyMayDay",
-					"type": "mp3",
 					"url": "http://cast.ptt.cc:8000/wow"
 				},
 				{
 					"title": "THBS - 清華大學校園電台",
-					"type": "mp3",
 					"url": "http://media.club.nthu.edu.tw:8000/thbs.mp3"
 				}
 			]
