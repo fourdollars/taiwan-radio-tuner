@@ -1,11 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <title>Taiwan Radio Tuner v0.8</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Taiwan Radio Tuner v0.9</title>
         <link rel="shortcut icon" type="image/x-icon" href="http://fd.idv.tw/radio/player.ico"/>
         <link rel="stylesheet" type="text/css" href="player.css"/>
-        <script type="text/javascript" src="jquery-1.4.2.js"></script>
+        <script type="text/javascript" src="jquery-1.5.min.js"></script>
         <script type="text/javascript" src="jquery.cookie.js"></script>
         <script type="text/javascript" src="jquery.timers.js"></script>
         <script type="text/javascript" src="player.js"></script>
@@ -13,14 +13,17 @@
     <body>
         <div id='panel'>
             <fieldset id='tuner'>
-                <legend><a href="https://github.com/fourdollars/taiwan-radio-tuner">Taiwan Radio Tuner v0.8</a></legend>
+                <legend><a href="https://github.com/fourdollars/taiwan-radio-tuner">Taiwan Radio Tuner v0.9</a></legend>
                 <select id="category"></select>
                 <select id="channel"></select>
                 <input id='control' type='button' value='▶'>
                 <br>
-                <input id='alarm' type='checkbox'>Alarm:
-                <select id="hour"></select>
-                <select id="minute"></select>
+                <input id='start' type='checkbox'>Start:
+                <select id="start_hour"></select>
+                <select id="start_minute"></select>
+                <input id='end' type='checkbox'>End:
+                <select id="end_hour"></select>
+                <select id="end_minute"></select>
             </fieldset>
             <div id='player'></div>
         </div>
