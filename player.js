@@ -99,31 +99,42 @@ var insert = function(selector, item, i) {
     }
 }
 
-var setAlarm = function() {
-    var alarm = $('#alarm');
-    alarm.bind('click', function() {
-        if (alarm[0].checked == true) {
-            alarm.everyTime(1000 , function () {
-                var hour = $('#hour').val();
-                var minute = $('#minute').val();
+var attachTimer = function(selector, fn, state) {
+    var select = $(selector);
+    var hour = $(selector + '_hour');
+    var minute = $(selector + '_minute');
+    var callback = function(event) {
+        if (select[0].checked == true) {
+            select.stopTime();
+            select.everyTime(1000 , function () {
                 var now = new Date();
                 var now_hour = now.getHours();
                 var now_minute = now.getMinutes();
-                if (hour == now_hour && minute == now_minute) {
-                    play();
-                    alarm[0].checked = false;
-                    alarm.stopTime();
+                if (hour.val() == now_hour && minute.val() == now_minute && $('#control').val() == state) {
+                    select[0].checked = false;
+                    select.stopTime();
+                    fn();
                 }
             });
-        } else {
-            alarm.stopTime();
         }
-    });
+        else {
+            select.stopTime();
+        }
+    }
+    select[0].checked = false;
+    select.bind('click', callback);
+    hour.bind('change', callback);
+    minute.bind('change', callback);
 }
 
-var addOptionHours = function() {
+var addOption = function(selector) {
+    addOptionHours(selector + '_hour');
+    addOptionMinutes(selector + '_minute', selector + '_hour');
+}
+
+var addOptionHours = function(item) {
     var hour = new Date().getHours();
-    var select = $.browser.msie ? $('#hour')[0] : $('#hour');
+    var select = $.browser.msie ? $(item)[0] : $(item);
     for (var i = 0; i < 24; i++) {
         if ($.browser.msie) {
             select.add(new Option(i, i), i);
@@ -131,13 +142,14 @@ var addOptionHours = function() {
             select.append(new Option(i, i));
         }
     }
-    $('#hour').val(hour);
+    $(item).val(hour);
 }
 
-var addOptionMinutes = function() {
-    var minute = Math.ceil(new Date().getMinutes() / 5) * 5;
-    var select = $.browser.msie ? $('#minute')[0] : $('#minute');
-    for (var i = 0; i < 60; i+=5) {
+var addOptionMinutes = function(item, hour) {
+    var step = 5;
+    var minute = Math.ceil(new Date().getMinutes() / step) * step;
+    var select = $.browser.msie ? $(item)[0] : $(item);
+    for (var i = 0; i < 60; i += step) {
         if ($.browser.msie) {
             select.add(new Option(i, i), i);
         } else {
@@ -145,9 +157,17 @@ var addOptionMinutes = function() {
         }
     }
     if (minute == 60) {
-        $('#minute').val(0);
-    } else {
-        $('#minute').val(minute);
+        var num = $(hour).val();
+        $(item).val(0);
+        if (num == 23) {
+            $(hour).val(0);
+        }
+        else {
+            $(hour).val(num + 1);
+        }
+    }
+    else {
+        $(item).val(minute);
     }
 }
 
@@ -185,9 +205,10 @@ $.getJSON('taiwan.json', function(data, stat) {
                 stop();
             }
         });
-        addOptionHours();
-        addOptionMinutes();
-        setAlarm();
+        addOption('#start');
+        addOption('#end');
+        attachTimer('#start', play, '▶');
+        attachTimer('#end', stop, '■');
     }
 });
 
