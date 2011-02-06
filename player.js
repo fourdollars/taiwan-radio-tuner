@@ -217,7 +217,7 @@ var addOptionMinutes = function(item, hour) {
         }
     }
     if (minute == 60) {
-        var num = $(hour).val();
+        var num = new Number($(hour).val());
         $(item).val(0);
         if (num == 23) {
             $(hour).val(0);
