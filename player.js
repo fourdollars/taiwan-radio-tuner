@@ -3,6 +3,27 @@
 var cat = [];
 var userAgent = navigator.userAgent.toLowerCase();
 
+$.extend({
+    getURLVars: function(){
+        var vars = [], hash;
+        var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+        for(var i = 0; i < hashes.length; i++)
+        {
+            hash = hashes[i].split('=');
+            vars.push(hash[0]);
+            vars[hash[0]] = hash[1];
+        }
+        return vars;
+    },
+    getURLVar: function(name){
+        return $.getURLVars()[name];
+    },
+    stripURLVar: function(){
+        var url = window.location.href.substr(0, window.location.href.indexOf('?'));
+        window.location.replace(url);
+    }
+});
+
 $.browser = {
     version: (userAgent.match( /.+(?:rv|it|ra|ie|me)[\/: ]([\d.]+)/ ) || [])[1],
     chrome: /chrome/.test( userAgent ),
@@ -28,31 +49,69 @@ var save = function(category, channel) {
     }
 }
 
+var autoplay = function(isAuto) {
+    if (isAuto !== undefined) {
+        if (window.localStorage === undefined) {
+            if (isAuto) {
+                $.cookie('autoplay', 1);
+            }
+            else {
+                $.cookie('autoplay', null);
+            }
+        }
+        else {
+            if (isAuto) {
+                localStorage['autoplay'] = 1;
+            }
+            else {
+                localStorage.removeItem('autoplay');
+            }
+        }
+    }
+    else {
+        if (window.localStorage === undefined) {
+            return $.cookie('autoplay');
+        } else {
+            return localStorage['autoplay'];
+        }
+    }
+}
+
 var load_category = function() {
     var category;
+
     if (window.localStorage === undefined) {
         category = $.cookie('category');
-    } else {
+    }
+    else {
         category = localStorage['category'];
     }
+
     if (category === undefined || category === null) {
         category = 0;
     }
+
     $('#category').val(category);
+
     return category;
 }
 
 var load_channel = function() {
     var channel;
+
     if (window.localStorage === undefined) {
         channel = $.cookie('channel');
-    } else {
+    }
+    else {
         channel = localStorage['channel'];
     }
+
     if (channel === undefined || channel === null) {
         channel = 0;
     }
+
     $('#channel').val(channel);
+
     return channel;
 }
 
@@ -60,7 +119,8 @@ var play = function() {
     var category = $('#category').val();
     var channel = $('#channel').val();
     var url = cat[category].channel[channel].url;
-    var title = cat[category].channel[channel].title;
+    var title = '<div><a href="?category=' + category + '&channel=' + channel + '"></div>' +
+        cat[category].channel[channel].title + '</a>';
     var player = $('#player');
     if ($.browser.safari && $.os.mac) {
         if (cat[category].channel[channel].id === undefined) {
@@ -69,17 +129,17 @@ var play = function() {
                 + '<param name="movie" value="player_mp3_maxi.swf">'
                 + '<param name="FlashVars" value="mp3=' + url
                 + '&amp;width=60&amp;autoplay=1&amp;showvolume=1&amp;showslider=0">'
-                + '</object>');
+                + '</object>' + title);
         } else {
             player.empty().append(
                 '<audio autoplay="autoplay" controls="controls" src="'
-                + url + '">UserAgent: ' + userAgent + '</audio>');
+                + url + '">UserAgent: ' + userAgent + '</audio>' + title);
         }
     } else {
         player.empty().append(
             '<embed autostart="1" src="' + url + '"'
             + 'type="application/x-mplayer2"></embed>'
-            + '<div>' + title + '</div>');
+            + title);
     }
     $('#control').val('■');
     save(category, channel);
@@ -157,7 +217,7 @@ var addOptionMinutes = function(item, hour) {
         }
     }
     if (minute == 60) {
-        var num = $(hour).val();
+        var num = new Number($(hour).val());
         $(item).val(0);
         if (num == 23) {
             $(hour).val(0);
@@ -173,42 +233,53 @@ var addOptionMinutes = function(item, hour) {
 
 var handleStateChange = function(data, stat) {
     if (stat == 'success') {
-        $.each(data.category, function(i, item) {
-            if (item) {
-                cat[i] = item;
-                insert('#category', item, i);
-            }
-        });
-        var category = load_category();
-        $.each(data.category[category].channel, function(i, item) {
-            if (item) {
-                insert('#channel', item, i);
-            }
-        });
-        load_channel();
-        $('#category').bind('change', function() {
-            $('#channel').empty();
-            $.each(cat[this.value].channel, function(i, item) {
+        if ($.getURLVar('category') !== undefined && $.getURLVar('channel') !== undefined) {
+            save($.getURLVar('category'), $.getURLVar('channel'));
+            autoplay(true);
+            $.stripURLVar();
+        }
+        else {
+            $.each(data.category, function(i, item) {
+                if (item) {
+                    cat[i] = item;
+                    insert('#category', item, i);
+                }
+            });
+            var category = load_category();
+            $.each(data.category[category].channel, function(i, item) {
                 if (item) {
                     insert('#channel', item, i);
                 }
             });
-            play();
-        });
-        $('#channel').bind('change', function() {
-            play();
-        });
-        $('#control').bind('click', function() {
-            if ($(this).val() == '▶') {
+            load_channel();
+            $('#category').bind('change', function() {
+                $('#channel').empty();
+                $.each(cat[this.value].channel, function(i, item) {
+                    if (item) {
+                        insert('#channel', item, i);
+                    }
+                });
                 play();
-            } else {
-                stop();
+            });
+            $('#channel').bind('change', function() {
+                play();
+            });
+            $('#control').bind('click', function() {
+                if ($(this).val() == '▶') {
+                    play();
+                } else {
+                    stop();
+                }
+            });
+            addOption('#start');
+            addOption('#end');
+            attachTimer('#start', play, '▶');
+            attachTimer('#end', stop, '■');
+            if (autoplay()) {
+                play();
+                autoplay(false);
             }
-        });
-        addOption('#start');
-        addOption('#end');
-        attachTimer('#start', play, '▶');
-        attachTimer('#end', stop, '■');
+        }
     }
 }
 
