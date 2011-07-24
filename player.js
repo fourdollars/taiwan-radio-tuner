@@ -43,7 +43,8 @@ var save = function(category, channel) {
     if (window.localStorage === undefined) {
         $.cookie('category', category);
         $.cookie('channel', channel);
-    } else {
+    }
+    else {
         localStorage['category'] = category;
         localStorage['channel'] = channel;
     }
@@ -130,12 +131,14 @@ var play = function() {
                 + '<param name="FlashVars" value="mp3=' + url
                 + '&amp;width=60&amp;autoplay=1&amp;showvolume=1&amp;showslider=0">'
                 + '</object>' + title);
-        } else {
+        }
+        else {
             player.empty().append(
                 '<audio autoplay="autoplay" controls="controls" src="'
                 + url + '">UserAgent: ' + userAgent + '</audio>' + title);
         }
-    } else {
+    }
+    else {
         player.empty().append(
             '<embed autostart="1" src="' + url + '"'
             + 'type="application/x-mplayer2"></embed>'
@@ -154,7 +157,8 @@ var insert = function(selector, item, i) {
     var select = $.browser.msie ? $(selector)[0] : $(selector);
     if ($.browser.msie) {
         select.add(new Option(item.title, i), i);
-    } else {
+    }
+    else {
         select.append(new Option(item.title, i));
     }
 }
@@ -198,7 +202,8 @@ var addOptionHours = function(item) {
     for (var i = 0; i < 24; i++) {
         if ($.browser.msie) {
             select.add(new Option(i, i), i);
-        } else {
+        }
+        else {
             select.append(new Option(i, i));
         }
     }
@@ -212,7 +217,8 @@ var addOptionMinutes = function(item, hour) {
     for (var i = 0; i < 60; i += step) {
         if ($.browser.msie) {
             select.add(new Option(i, i), i);
-        } else {
+        }
+        else {
             select.append(new Option(i, i));
         }
     }
@@ -231,7 +237,11 @@ var addOptionMinutes = function(item, hour) {
     }
 }
 
-var handleStateChange = function(data, stat) {
+var sortChannel = function(A,B) {
+    return A.title.localeCompare(B.title);
+}
+
+var handleStateChange = function(db, stat) {
     if (stat == 'success') {
         if ($.getURLVar('category') !== undefined && $.getURLVar('channel') !== undefined) {
             save($.getURLVar('category'), $.getURLVar('channel'));
@@ -239,14 +249,24 @@ var handleStateChange = function(data, stat) {
             $.stripURLVar();
         }
         else {
-            $.each(data.category, function(i, item) {
+            var all = db.category.length;
+            db.category[all] = new Object();
+            db.category[all].title = "所有電台";
+            db.category[all].channel = new Array();
+            for (var i = 0; i < all; i++) {
+                for (var j = 0; j < db.category[i].channel.length; j++) {
+                    db.category[all].channel[db.category[all].channel.length] = db.category[i].channel[j];
+                }
+            }
+            db.category[all].channel.sort(sortChannel);
+            $.each(db.category, function(i, item) {
                 if (item) {
                     cat[i] = item;
                     insert('#category', item, i);
                 }
             });
             var category = load_category();
-            $.each(data.category[category].channel, function(i, item) {
+            $.each(db.category[category].channel, function(i, item) {
                 if (item) {
                     insert('#channel', item, i);
                 }
@@ -267,7 +287,8 @@ var handleStateChange = function(data, stat) {
             $('#control').bind('click', function() {
                 if ($(this).val() == '▶') {
                     play();
-                } else {
+                }
+                else {
                     stop();
                 }
             });

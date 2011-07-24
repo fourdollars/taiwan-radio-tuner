@@ -2,7 +2,7 @@
    "background_page": "background.html",
    "browser_action": {
       "default_icon": "Icon19.png",
-      "default_title": "Taiwan Radio Tuner v1.0"
+      "default_title": "Taiwan Radio Tuner v1.1"
    },
    "description": "Listen to the radio of Taiwan.",
    "icons": {
@@ -13,5 +13,5 @@
    },
    "name": "Taiwan Radio Tuner",
    "permissions": [ "tabs" ],
-   "version": "1.0"
+   "version": "1.1"
 }
