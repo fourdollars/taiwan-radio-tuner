@@ -307,7 +307,7 @@ var handleStateChange = function(db, stat) {
 var xhr;
 
 var handleStateChange2 = function() {
-    if (xhr.readyState == 4 && xhr.status == 0) {
+    if (xhr.readyState == 4 && xhr.status == 200) {
         var data = eval("(" + xhr.responseText + ")"); // This is dangerous, but we made the data so that is OK.
         handleStateChange(data, "success");
     }
