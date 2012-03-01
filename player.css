@@ -26,16 +26,14 @@ fieldset {
 }
 
 div#panel {
-    position: fixed;
+    width: 400px;
 }
 
 div#tuner {
     font-weight: bold;
-    position: fixed;
     margin: 5px;
 }
 
 div#player {
-    position: fixed;
     margin: 5px;
 }

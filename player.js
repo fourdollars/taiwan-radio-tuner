@@ -122,34 +122,13 @@ var play = function() {
     var url = cat[category].channel[channel].url;
     var title = '<div><a href="?category=' + category + '&channel=' + channel + '"></div>' +
         cat[category].channel[channel].title + '</a>';
-    var player = $('#player');
-    if ($.browser.safari && $.os.mac) {
-        if (cat[category].channel[channel].id === undefined) {
-            player.empty().append(
-                '<object type="application/x-shockwave-flash" data="player_mp3_maxi.swf" width="60" height="20">'
-                + '<param name="movie" value="player_mp3_maxi.swf">'
-                + '<param name="FlashVars" value="mp3=' + url
-                + '&amp;width=60&amp;autoplay=1&amp;showvolume=1&amp;showslider=0">'
-                + '</object>' + title);
-        }
-        else {
-            player.empty().append(
-                '<audio autoplay="autoplay" controls="controls" src="'
-                + url + '">UserAgent: ' + userAgent + '</audio>' + title);
-        }
-    }
-    else {
-        player.empty().append(
-            '<embed autostart="1" src="' + url + '"'
-            + 'type="application/x-mplayer2"></embed>'
-            + title);
-    }
+    chrome.extension.getBackgroundPage().play(url);
     $('#control').val('■');
     save(category, channel);
 }
 
 var stop = function() {
-    $('#player').empty();
+    chrome.extension.getBackgroundPage().stop();
     $('#control').val('▶');
 }
 
@@ -309,6 +288,12 @@ var xhr;
 var handleStateChange2 = function() {
     if (xhr.readyState == 4 && xhr.status == 200) {
         var data = eval("(" + xhr.responseText + ")"); // This is dangerous, but we made the data so that is OK.
+	if (chrome.extension.getBackgroundPage().isPlaying) {
+	    $('#control').val('■');
+	} else {
+	    $('#control').val('▶');
+	}
+
         handleStateChange(data, "success");
     }
 }
