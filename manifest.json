@@ -3,7 +3,7 @@
    "browser_action": {
       "default_icon": "Icon19.png",
       "default_title": "Taiwan Radio Tuner v1.3",
-      "popup": "tuner.html"
+      "default_popup": "tuner.html"
    },
    "description": "Listen to the radio of Taiwan.",
    "icons": {
