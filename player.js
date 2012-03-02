@@ -24,69 +24,15 @@ $.extend({
     }
 });
 
-$.browser = {
-    version: (userAgent.match( /.+(?:rv|it|ra|ie|me)[\/: ]([\d.]+)/ ) || [])[1],
-    chrome: /chrome/.test( userAgent ),
-    safari: /webkit/.test( userAgent ) && !/chrome/.test( userAgent ),
-    opera: /opera/.test( userAgent ),
-    msie: /msie/.test( userAgent ) && !/opera/.test( userAgent ),
-    mozilla: /mozilla/.test( userAgent ) && !/(compatible|webkit)/.test( userAgent )
-};
-
-$.os = {
-    windows: /windows/.test( userAgent ),
-    mac: /macintosh/.test( userAgent ),
-    linux: /linux/.test( userAgent )
-};
-
 var save = function(category, channel) {
-    if (window.localStorage === undefined) {
-        $.cookie('category', category);
-        $.cookie('channel', channel);
-    }
-    else {
-        localStorage['category'] = category;
-        localStorage['channel'] = channel;
-    }
-}
-
-var autoplay = function(isAuto) {
-    if (isAuto !== undefined) {
-        if (window.localStorage === undefined) {
-            if (isAuto) {
-                $.cookie('autoplay', 1);
-            }
-            else {
-                $.cookie('autoplay', null);
-            }
-        }
-        else {
-            if (isAuto) {
-                localStorage['autoplay'] = 1;
-            }
-            else {
-                localStorage.removeItem('autoplay');
-            }
-        }
-    }
-    else {
-        if (window.localStorage === undefined) {
-            return $.cookie('autoplay');
-        } else {
-            return localStorage['autoplay'];
-        }
-    }
+    localStorage['category'] = category;
+    localStorage['channel'] = channel;
 }
 
 var load_category = function() {
     var category;
 
-    if (window.localStorage === undefined) {
-        category = $.cookie('category');
-    }
-    else {
-        category = localStorage['category'];
-    }
+    category = localStorage['category'];
 
     if (category === undefined || category === null) {
         category = 0;
@@ -100,12 +46,7 @@ var load_category = function() {
 var load_channel = function() {
     var channel;
 
-    if (window.localStorage === undefined) {
-        channel = $.cookie('channel');
-    }
-    else {
-        channel = localStorage['channel'];
-    }
+    channel = localStorage['channel'];
 
     if (channel === undefined || channel === null) {
         channel = 0;
@@ -133,38 +74,27 @@ var stop = function() {
 }
 
 var insert = function(selector, item, i) {
-    var select = $.browser.msie ? $(selector)[0] : $(selector);
-    if ($.browser.msie) {
-        select.add(new Option(item.title, i), i);
-    }
-    else {
-        select.append(new Option(item.title, i));
-    }
+    var select = $(selector);
+    select.append(new Option(item.title, i));
 }
 
-var attachTimer = function(selector, fn, state) {
+var attachTimer = function(selector) {
     var select = $(selector);
     var hour = $(selector + '_hour');
     var minute = $(selector + '_minute');
+
+    chrome.extension.getBackgroundPage().check_alarm(selector, function (on_off, a_hour, a_minute) {
+	select[0].checked = on_off;
+	hour.val(a_hour);
+	minute.val(a_minute);
+    });
+
     var callback = function(event) {
-        if (select[0].checked == true) {
-            select.stopTime();
-            select.everyTime(1000 , function () {
-                var now = new Date();
-                var now_hour = now.getHours();
-                var now_minute = now.getMinutes();
-                if (hour.val() == now_hour && minute.val() == now_minute && $('#control').val() == state) {
-                    select[0].checked = false;
-                    select.stopTime();
-                    fn();
-                }
-            });
-        }
-        else {
-            select.stopTime();
-        }
+	var category = $('#category').val();
+	var channel = $('#channel').val();
+	var url = cat[category].channel[channel].url;
+	chrome.extension.getBackgroundPage().set_alarm(url, selector, select[0].checked, hour.val(), minute.val());
     }
-    select[0].checked = false;
     select.bind('click', callback);
     hour.bind('change', callback);
     minute.bind('change', callback);
@@ -177,14 +107,9 @@ var addOption = function(selector) {
 
 var addOptionHours = function(item) {
     var hour = new Date().getHours();
-    var select = $.browser.msie ? $(item)[0] : $(item);
+    var select = $(item);
     for (var i = 0; i < 24; i++) {
-        if ($.browser.msie) {
-            select.add(new Option(i, i), i);
-        }
-        else {
-            select.append(new Option(i, i));
-        }
+	select.append(new Option(i, i));
     }
     $(item).val(hour);
 }
@@ -192,14 +117,9 @@ var addOptionHours = function(item) {
 var addOptionMinutes = function(item, hour) {
     var step = 5;
     var minute = Math.ceil(new Date().getMinutes() / step) * step;
-    var select = $.browser.msie ? $(item)[0] : $(item);
+    var select = $(item);
     for (var i = 0; i < 60; i += step) {
-        if ($.browser.msie) {
-            select.add(new Option(i, i), i);
-        }
-        else {
-            select.append(new Option(i, i));
-        }
+	select.append(new Option(i, i));
     }
     if (minute == 60) {
         var num = new Number($(hour).val());
@@ -222,64 +142,63 @@ var sortChannel = function(A,B) {
 
 var handleStateChange = function(db, stat) {
     if (stat == 'success') {
-        if ($.getURLVar('category') !== undefined && $.getURLVar('channel') !== undefined) {
-            save($.getURLVar('category'), $.getURLVar('channel'));
-            autoplay(true);
-            $.stripURLVar();
-        }
-        else {
-            var all = db.category.length;
-            db.category[all] = new Object();
-            db.category[all].title = "所有電台";
-            db.category[all].channel = new Array();
-            for (var i = 0; i < all; i++) {
-                for (var j = 0; j < db.category[i].channel.length; j++) {
-                    db.category[all].channel[db.category[all].channel.length] = db.category[i].channel[j];
-                }
-            }
-            db.category[all].channel.sort(sortChannel);
-            $.each(db.category, function(i, item) {
-                if (item) {
-                    cat[i] = item;
-                    insert('#category', item, i);
-                }
-            });
-            var category = load_category();
-            $.each(db.category[category].channel, function(i, item) {
-                if (item) {
-                    insert('#channel', item, i);
-                }
-            });
-            load_channel();
-            $('#category').bind('change', function() {
-                $('#channel').empty();
-                $.each(cat[this.value].channel, function(i, item) {
-                    if (item) {
-                        insert('#channel', item, i);
-                    }
-                });
-                play();
-            });
-            $('#channel').bind('change', function() {
-                play();
-            });
-            $('#control').bind('click', function() {
-                if ($(this).val() == '▶') {
-                    play();
-                }
-                else {
-                    stop();
-                }
-            });
-            addOption('#start');
-            addOption('#end');
-            attachTimer('#start', play, '▶');
-            attachTimer('#end', stop, '■');
-            if (autoplay()) {
-                play();
-                autoplay(false);
-            }
-        }
+	var all = db.category.length;
+	db.category[all] = new Object();
+	db.category[all].title = "所有電台";
+	db.category[all].channel = new Array();
+	for (var i = 0; i < all; i++) {
+	    for (var j = 0; j < db.category[i].channel.length; j++) {
+		db.category[all].channel[db.category[all].channel.length] = db.category[i].channel[j];
+	    }
+	}
+	db.category[all].channel.sort(sortChannel);
+	$.each(db.category, function(i, item) {
+	    if (item) {
+		cat[i] = item;
+		insert('#category', item, i);
+	    }
+	});
+	var category = load_category();
+	$.each(db.category[category].channel, function(i, item) {
+	    if (item) {
+		insert('#channel', item, i);
+	    }
+	});
+	load_channel();
+	$('#category').bind('change', function() {
+	    $('#channel').empty();
+	    $.each(cat[this.value].channel, function(i, item) {
+		if (item) {
+		    insert('#channel', item, i);
+		}
+	    });
+	    play();
+	});
+	$('#channel').bind('change', function() {
+	    play();
+	});
+	$('#control').bind('click', function() {
+	    if ($(this).val() == '▶') {
+		play();
+	    }
+	    else {
+		stop();
+	    }
+	});
+	addOption('#start');
+	addOption('#stop');
+	attachTimer('#start');
+	attachTimer('#stop');
+	chrome.extension.getBackgroundPage().watchdog();
+	$('#control').everyTime(1000, function () {
+	    if (chrome.extension.getBackgroundPage().isPlaying) {
+		$('#control').val('■');
+	    } else {
+		$('#control').val('▶');
+	    }
+	    $('#start')[0].checked = chrome.extension.getBackgroundPage().isAlarmStarted;
+	    $('#stop')[0].checked = chrome.extension.getBackgroundPage().isAlarmStopped;
+	});
     }
 }
 
@@ -293,7 +212,8 @@ var handleStateChange2 = function() {
 	} else {
 	    $('#control').val('▶');
 	}
-
+	$('#start')[0].checked = chrome.extension.getBackgroundPage().isAlarmStarted;
+	$('#stop')[0].checked = chrome.extension.getBackgroundPage().isAlarmStopped;
         handleStateChange(data, "success");
     }
 }
